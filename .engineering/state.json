@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "packageVersion": "0.5.0",
+  "profile": "generic",
+  "manager": {
+    "name": "npm",
+    "version": "11.6.2"
+  },
+  "generator": null,
+  "integrations": {
+    "beads": false,
+    "graphify": false,
+    "skills": true
+  },
+  "phase": "configured",
+  "installFingerprint": "b1875991e5231e7d64f1fe9bd2834bf62a3de9767b1096d04a462bebb524f896"
+}

@@ -1,0 +1,83 @@
+.astryx-tooltip:has([data-quest-tooltip]) {
+  max-width: min(320px, calc(100vw - 24px));
+  border: 0;
+  border-radius: 0;
+  padding: 4px;
+  background: var(--q-edge);
+  color: var(--q-popover-foreground);
+  clip-path: var(--q-step);
+  box-shadow: none;
+}
+
+.astryx-tooltip:has([data-quest-tooltip]) > div {
+  padding: 0;
+  font-family: var(--q-font-body);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+[data-quest-tooltip] {
+  display: block;
+  padding: 8px 12px;
+  background: var(--q-popover);
+  clip-path: var(--q-step);
+  overflow-wrap: anywhere;
+}
+
+.quest-progress .astryx-progress-bar-track {
+  box-sizing: border-box;
+  height: 24px;
+  padding: 3px;
+  border: 3px solid var(--q-edge);
+  border-radius: 0;
+  background: var(--q-muted);
+  box-shadow: 4px 4px 0 var(--q-shadow);
+}
+
+.quest-progress .astryx-progress-bar-fill {
+  border-radius: 0;
+  background-image: repeating-linear-gradient(to right, transparent 0, transparent 12px, var(--q-muted) 12px, var(--q-muted) 16px);
+  box-shadow: inset 0 3px 0 color-mix(in srgb, white, transparent 65%), inset 0 -3px 0 color-mix(in srgb, black, transparent 75%);
+  transition-timing-function: steps(8, end);
+  animation-timing-function: steps(8, end);
+}
+
+.quest-progress .astryx-progress-bar-fill[data-variant='accent'] {
+  background-color: var(--q-primary);
+}
+
+.quest-progress .astryx-progress-bar-fill[data-variant='neutral'],
+.quest-progress .astryx-progress-bar-fill[data-variant='disabled'] {
+  background-color: var(--q-muted-foreground);
+}
+
+.quest-progress .astryx-progress-bar-mark {
+  width: 4px;
+  height: 24px;
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .astryx-tooltip:has([data-quest-tooltip]),
+  .quest-progress .astryx-progress-bar-fill {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .astryx-tooltip:has([data-quest-tooltip]) {
+    border: 2px solid CanvasText;
+    clip-path: none;
+  }
+
+  .quest-progress .astryx-progress-bar-track {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+
+  .quest-progress .astryx-progress-bar-fill {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+}

@@ -1,0 +1,19 @@
+# QuestUI
+
+> Editable pixel-art React components with shadcn-compatible source delivery, Astryx semantics, and StyleX styling.
+
+QuestUI provides the complete 64-component shadcn catalog as editable TypeScript compositions. The CLI copies source into a consumer application; Astryx and StyleX remain dependencies.
+
+## Documentation
+
+- [Getting started](docs/getting-started.md): registry hosting, CLI installation, guarded Vite setup, and component delivery.
+- [Component catalog](docs/components.md): all CLI slugs, primary exports, and Astryx foundations.
+- [AI integration guide](docs/ai.md): canonical files, styling invariants, change workflow, and verification contract.
+- [Project README](README.md): overview, quick start, architecture, development, and current limits.
+
+## Canonical machine-readable sources
+
+- `cli/catalog.ts`: component names and Astryx mappings.
+- `components/quest/index.ts`: public exports.
+- `public/r/registry.json`: generated shadcn-compatible registry metadata.
+- `package.json`: package entry points, binary, scripts, versions, and engine requirements.

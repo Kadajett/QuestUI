@@ -1,0 +1,41 @@
+
+# BEGIN ENGINEERING PROJECT
+!/.engineering/
+!/.engineering/vendor/
+!/.engineering/vendor/*.tgz
+# END ENGINEERING PROJECT
+
+# BEGIN ENGINEERING SKILLS
+/.agents/skills/codebase-design
+/.claude/skills/codebase-design
+/.pi/skills/codebase-design
+/.omp/skills/codebase-design
+/.agents/skills/diagnosing-bugs
+/.claude/skills/diagnosing-bugs
+/.pi/skills/diagnosing-bugs
+/.omp/skills/diagnosing-bugs
+/.agents/skills/tdd
+/.claude/skills/tdd
+/.pi/skills/tdd
+/.omp/skills/tdd
+/.agents/skills/vercel-react-best-practices
+/.claude/skills/vercel-react-best-practices
+/.pi/skills/vercel-react-best-practices
+/.omp/skills/vercel-react-best-practices
+# END ENGINEERING SKILLS
+
+# Local dependencies and generated output
+/node_modules/
+/dist/
+/coverage/
+/test-results/
+/playwright-report/
+/.stryker-tmp/
+/reports/mutation/
+/.wrangler/
+/graphify-out/
+/*.tgz
+.env
+.env.*
+!.env.example
+.DS_Store

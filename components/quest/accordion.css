@@ -1,0 +1,102 @@
+.quest-accordion {
+  position: relative;
+  isolation: isolate;
+  padding: 4px;
+  color: var(--q-foreground);
+  font-family: var(--q-font-display);
+  filter: drop-shadow(4px 4px 0 var(--q-shadow));
+}
+
+.quest-accordion::before,
+.quest-accordion::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  clip-path: var(--q-step);
+}
+
+.quest-accordion::before {
+  inset: 0;
+  background: var(--q-edge);
+}
+
+.quest-accordion::after {
+  inset: 3px;
+  background: var(--q-card);
+}
+
+.quest-accordion-item.astryx-collapsible {
+  border-block-start-color: var(--q-input);
+}
+
+.quest-accordion-item > .astryx-collapsible-trigger {
+  min-height: 48px;
+  padding: 16px;
+  color: var(--q-foreground);
+  font-family: var(--q-font-display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.quest-accordion-item > .astryx-collapsible-trigger:hover:not([aria-disabled='true']) {
+  background: var(--q-muted);
+}
+
+.quest-accordion-item:first-child > .astryx-collapsible-trigger:hover:not([aria-disabled='true']) {
+  clip-path: polygon(0 8px, 4px 8px, 4px 4px, 8px 4px, 8px 0, calc(100% - 8px) 0, calc(100% - 8px) 4px, calc(100% - 4px) 4px, calc(100% - 4px) 8px, 100% 8px, 100% 100%, 0 100%);
+}
+
+.quest-accordion-item:last-child > .astryx-collapsible-trigger[aria-expanded='false']:hover:not([aria-disabled='true']) {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px), calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 4px), 4px calc(100% - 4px), 4px calc(100% - 8px), 0 calc(100% - 8px));
+}
+
+.quest-accordion-item:only-child > .astryx-collapsible-trigger[aria-expanded='false']:hover:not([aria-disabled='true']) {
+  clip-path: var(--q-step);
+}
+
+.quest-accordion-item > .astryx-collapsible-trigger:focus-visible {
+  outline: 3px solid var(--q-ring);
+  outline-offset: -4px;
+}
+
+.quest-accordion-item > .astryx-collapsible-trigger[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Astryx keeps the content mounted and applies display:none when collapsed. */
+.quest-accordion-item > .astryx-collapsible-content {
+  padding: 4px 16px 16px;
+  color: var(--q-foreground);
+  font-family: var(--q-font-body);
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+@media (forced-colors: active) {
+  .quest-accordion {
+    border: 2px solid CanvasText;
+    filter: none;
+  }
+
+  .quest-accordion::before,
+  .quest-accordion::after {
+    display: none;
+  }
+
+  .quest-accordion-item.astryx-collapsible {
+    border-block-start-color: CanvasText;
+  }
+
+  .quest-accordion-item > .astryx-collapsible-trigger:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-accordion-item > .astryx-collapsible-trigger .astryx-icon {
+    transition: none;
+  }
+}

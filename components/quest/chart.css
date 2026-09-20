@@ -1,0 +1,5 @@
+@media (forced-colors: active) {
+  .quest-chart g { color: CanvasText !important; }
+  .quest-chart rect:focus { outline: 3px solid Highlight; }
+  .quest-chart path[fill="currentColor"] { fill: CanvasText; }
+}

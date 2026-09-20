@@ -1,0 +1,27 @@
+/* Native layers can portal: mark the menu content rather than relying on DOM adjacency. */
+[role="menu"]:has(.quest-navigation-menu-icon) {
+  border: 3px solid var(--q-border);
+  border-radius: 0;
+  background: var(--q-popover);
+  color: var(--q-popover-foreground);
+  box-shadow: 4px 4px 0 var(--q-shadow);
+  font-family: var(--q-font-body);
+}
+[role="menu"]:has(.quest-navigation-menu-icon) [role="menuitem"] {
+  border-radius: 0;
+  color: var(--q-popover-foreground);
+  font-family: var(--q-font-body);
+}
+[role="menu"]:has(.quest-navigation-menu-icon) [role="menuitem"]:focus-visible {
+  outline: 3px solid var(--q-ring);
+  outline-offset: -3px;
+}
+@media (forced-colors: active) {
+  [role="menu"]:has(.quest-navigation-menu-icon) {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+  [role="menu"]:has(.quest-navigation-menu-icon) [role="menuitem"] { color: CanvasText; }
+}

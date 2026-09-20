@@ -1,0 +1,5 @@
+/* Astryx reserves 20/24px for its native indicator; Quest paints a 44px control. */
+.quest-radio-item > span > div:has(> input[type='radio']) {
+  width: 44px;
+  height: 44px;
+}

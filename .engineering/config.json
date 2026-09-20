@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "profile": "generic",
+  "sources": [
+    "."
+  ],
+  "exclude": [
+    "node_modules",
+    ".git",
+    ".engineering",
+    ".beads",
+    ".graphify",
+    ".agents",
+    ".claude",
+    ".codex",
+    ".agent",
+    "dist",
+    "dist-cli",
+    "build",
+    "coverage",
+    ".stryker-tmp",
+    "reports/mutation",
+    ".next",
+    ".tanstack",
+    ".output",
+    ".nuxt",
+    ".svelte-kit",
+    ".astro",
+    ".turbo",
+    ".cache",
+    ".wrangler",
+    "generated",
+    "routeTree.gen.ts",
+    "*.generated.*",
+    "worker-configuration.d.ts",
+    "vendor",
+    ".env",
+    ".env.*",
+    ".omp",
+    ".pi",
+    "graphify-out"
+  ],
+  "typescript": {
+    "projects": []
+  },
+  "limits": {
+    "cyclomatic": 10,
+    "functionLines": 50,
+    "parameters": 4,
+    "fileLines": 300,
+    "testFileLines": 1000,
+    "nesting": 4,
+    "cognitive": 15
+  },
+  "boundaries": []
+}

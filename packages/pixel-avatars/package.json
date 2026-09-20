@@ -1,0 +1,15 @@
+{
+  "name": "@quest-ui/pixel-avatars",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic cute pixel-art avatar generator. 100+ options per category.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./render": "./src/render.ts"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "@stylexjs/stylex": "^0.19.1"
+  }
+}

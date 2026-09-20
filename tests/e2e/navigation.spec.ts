@@ -1,0 +1,66 @@
+import {expect, test} from '@playwright/test'
+
+test.beforeEach(async ({page}) => {
+  await page.goto('/demo')
+})
+
+test('tabs provide manual keyboard activation and skip disabled destinations', async ({page}) => {
+  const journal = page.getByRole('tablist', {name: 'Quest journal'})
+  const active = journal.getByRole('tab', {name: 'Active'})
+  const completed = journal.getByRole('tab', {name: 'Completed'})
+  await active.focus()
+  await page.keyboard.press('ArrowRight')
+  await expect(completed).toBeFocused()
+  await expect(active).toHaveAttribute('aria-selected', 'true')
+  await page.keyboard.press('Enter')
+  await expect(completed).toHaveAttribute('aria-selected', 'true')
+  await expect(page.getByRole('tabpanel', {name: 'Completed'})).toContainText('120 gold')
+  await expect(page.getByRole('tabpanel', {name: 'Active'})).toBeHidden()
+  await page.keyboard.press('Home')
+  await expect(active).toBeFocused()
+  await page.keyboard.press('Space')
+  await expect(page.getByRole('tabpanel', {name: 'Active'})).toContainText('Crystal Cave')
+  await expect(journal.getByRole('tab', {name: 'Locked'})).toBeDisabled()
+  await page.keyboard.press('End')
+  await expect(completed).toBeFocused()
+})
+
+test('modal traps focus, dismisses with Escape, and restores its opener', async ({page}) => {
+  const opener = page.getByRole('button', {name: 'Set up camp', exact: true})
+  await opener.click()
+  const dialog = page.getByRole('dialog', {name: 'Rest at camp?'})
+  const cancel = dialog.getByRole('button', {name: 'Keep exploring'})
+  const confirm = dialog.getByRole('button', {name: 'Rest and save'})
+  await expect(dialog).toBeVisible()
+  await expect(cancel).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(confirm).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await expect(cancel).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(confirm).toBeFocused()
+  // Native modal inertness prevents programmatic focus from escaping, too.
+  await opener.evaluate(element => (element as HTMLElement).focus())
+  await expect(confirm).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(dialog).toBeHidden()
+  await expect(opener).toBeFocused()
+  await opener.click()
+  await confirm.click()
+  await expect(dialog).toBeHidden()
+  await expect(opener).toBeFocused()
+  await expect(page.getByRole('status').filter({hasText: 'Party restored.'})).toBeVisible()
+})
+
+for (const theme of ['overworld', 'castle'] as const) {
+  test(`navigation surfaces in ${theme}`, async ({page}) => {
+    await page.emulateMedia({reducedMotion: 'reduce'})
+    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    await page.evaluate(() => document.fonts.ready)
+    await expect(page.locator('#tabs')).toHaveScreenshot(`tabs-${theme}.png`)
+    await page.getByRole('button', {name: 'Set up camp', exact: true}).click()
+    const dialog = page.getByRole('dialog', {name: 'Rest at camp?'})
+    await expect(dialog).toBeVisible()
+    await expect(dialog).toHaveScreenshot(`dialog-${theme}.png`)
+  })
+}

@@ -1,0 +1,77 @@
+import {expect, test} from '@playwright/test'
+
+test.beforeEach(async ({page}) => { await page.goto('/demo') })
+
+test('breadcrumb navigation and bounded pagination update displayed content', async ({page}) => {
+  const trail = page.getByRole('navigation', {name: 'Exploration trail'})
+  await trail.getByRole('button', {name: 'Overworld'}).click()
+  await expect(trail.locator('[aria-current="page"]')).toHaveText('Overworld')
+  const pagination = page.getByRole('navigation', {name: 'Journal pages'})
+  await expect(pagination.getByRole('button', {name: 'Go to previous page'})).toBeDisabled()
+  await pagination.getByRole('button', {name: 'Go to next page'}).click()
+  await expect(page.getByRole('status', {name: 'Journal page'})).toContainText('Meet the ranger')
+  await pagination.getByRole('button', {name: 'Go to next page'}).click()
+  await expect(page.getByRole('status', {name: 'Journal page'})).toContainText('Return to camp')
+  await expect(pagination.getByRole('button', {name: 'Go to next page'})).toBeDisabled()
+})
+
+test('scroll viewport responds to keyboard scrolling', async ({page}) => {
+  const history = page.getByRole('region', {name: 'Expedition history'})
+  await history.focus()
+  await page.keyboard.press('End')
+  await expect.poll(() => history.evaluate(element => element.scrollTop)).toBeGreaterThan(0)
+  await expect.poll(() => history.evaluate(element => Math.abs(element.scrollHeight - element.clientHeight - element.scrollTop))).toBeLessThan(3)
+})
+
+test('collapsed sidebar remains navigable and mobile drawer closes with Escape', async ({page}) => {
+  await page.getByRole('button', {name: 'Collapse sidebar'}).click()
+  await expect(page.getByRole('status', {name: 'Sidebar display'})).toContainText('collapsed')
+  await page.getByRole('navigation', {name: 'Adventure sidebar'}).getByRole('button', {name: 'Inventory'}).click()
+  await expect(page.getByRole('status', {name: 'Sidebar destination'})).toContainText('Inventory')
+  await page.getByRole('button', {name: 'Expand sidebar'}).click()
+  await page.setViewportSize({width: 390, height: 844})
+  const opener = page.getByRole('button', {name: 'Open mobile navigation'})
+  await opener.click()
+  const drawer = page.getByRole('dialog', {name: 'Adventure navigation'})
+  await expect(drawer).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(drawer).toBeHidden()
+  await expect(opener).toBeFocused()
+  await opener.click()
+  await drawer.getByRole('button', {name: 'Quest journal'}).click()
+  await expect(drawer).toBeHidden()
+  await expect(page.getByRole('status', {name: 'Sidebar destination'})).toContainText('Quest journal')
+})
+
+test('subnavigation supports keyboard activation and pointer hover', async ({page}) => {
+  const trigger = page.getByRole('button', {name: 'Explore regions'})
+  await trigger.focus()
+  await page.keyboard.press('ArrowDown')
+  await expect(page.getByRole('menuitem', {name: /Crystal Cave/})).toBeFocused()
+  await page.keyboard.press('End')
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('status', {name: 'Travel destination'})).toContainText('Forest Shrine')
+  await page.keyboard.press('Escape')
+  await expect(trigger).toBeFocused()
+  // Astryx suppresses the stationary pointer after Escape; a deliberate re-entry must reopen.
+  await trigger.hover()
+  await page.mouse.move(0, 0)
+  await trigger.hover()
+  await expect(page.getByRole('menu', {name: 'Explore regions'})).toBeVisible()
+  await page.getByRole('menuitem', {name: /Crystal Cave/}).click()
+  await expect(page.getByRole('status', {name: 'Travel destination'})).toContainText('Crystal Cave')
+})
+
+for (const theme of ['overworld', 'castle'] as const) {
+  test(`extra navigation surfaces in ${theme}`, async ({page}) => {
+    await page.emulateMedia({reducedMotion: 'reduce'})
+    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    await page.evaluate(() => document.fonts.ready)
+    await expect(page.locator('#navigation-extra')).toHaveScreenshot(`navigation-extra-${theme}.png`)
+    await page.getByRole('button', {name: 'Explore regions'}).click()
+    await expect(page.getByRole('menu', {name: 'Explore regions'})).toHaveScreenshot(`navigation-menu-${theme}.png`)
+    await page.keyboard.press('Escape')
+    await page.getByRole('button', {name: 'Open mobile navigation'}).click()
+    await expect(page.getByRole('dialog', {name: 'Adventure navigation'})).toHaveScreenshot(`sidebar-mobile-${theme}.png`)
+  })
+}

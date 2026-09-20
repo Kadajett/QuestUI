@@ -1,0 +1,32 @@
+.quest-spinner svg {
+  box-sizing: border-box;
+  border: var(--spinner-stroke-width, 3px) solid var(--spinner-color, currentColor);
+  border-inline-end-color: transparent;
+  border-radius: 0;
+  animation-timing-function: steps(4, end);
+}
+
+.quest-spinner svg circle {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-spinner svg {
+    animation: none;
+    border-style: dotted;
+    border-inline-end-color: var(--spinner-color, currentColor);
+  }
+}
+
+@media (forced-colors: active) {
+  .quest-spinner svg {
+    border-color: CanvasText;
+    border-inline-end-color: transparent;
+  }
+}
+
+@media (forced-colors: active) and (prefers-reduced-motion: reduce) {
+  .quest-spinner svg {
+    border-inline-end-color: CanvasText;
+  }
+}

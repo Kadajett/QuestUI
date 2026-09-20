@@ -1,0 +1,62 @@
+import * as stylex from '@stylexjs/stylex'
+
+export const pickerStyles = stylex.create({
+  calendar: {
+    '--size-element-sm': '44px', '--size-element-md': '44px',
+    '--radius-full': '0px', '--text-label-size': '16px',
+    '--text-supporting-size': '16px', '--font-weight-semibold': '700',
+    '--color-text-primary': 'var(--q-foreground)',
+    '--color-text-secondary': 'var(--q-muted-foreground)',
+    '--color-accent-muted': 'var(--q-accent)',
+    '--color-overlay-hover': 'var(--q-accent)',
+    '--focus-outline-color': 'var(--q-ring)',
+    '--focus-outline-width': '3px', '--focus-outline-offset': '-3px',
+    display: 'block', boxSizing: 'border-box', width: '100%', maxWidth: '100%',
+    minWidth: 0, padding: 8, overflowX: 'auto',
+    color: 'var(--q-foreground)', fontFamily: 'var(--q-font-body)',
+    fontSize: 20, lineHeight: 1.2,
+  },
+  popover: {
+    position: 'relative', isolation: 'isolate', boxSizing: 'border-box',
+    maxWidth: 'calc(100vw - 24px)', padding: 12,
+    borderWidth: 0, borderRadius: 0, backgroundColor: 'transparent',
+    boxShadow: 'none', filter: 'drop-shadow(4px 4px 0 var(--q-shadow))',
+    color: 'var(--q-popover-foreground)', fontFamily: 'var(--q-font-body)',
+    fontSize: 18, lineHeight: 1.4,
+    outlineColor: 'var(--q-ring)',
+    '::before': {
+      content: '""', position: 'absolute', inset: 0, zIndex: -1,
+      pointerEvents: 'none', clipPath: 'var(--q-step)', backgroundColor: 'var(--q-highlight)',
+    },
+    '::after': {
+      content: '""', position: 'absolute', inset: 3, zIndex: -1,
+      pointerEvents: 'none', clipPath: 'var(--q-step)', backgroundColor: 'var(--q-popover)',
+      boxShadow: 'inset 0 4px 0 var(--q-border)',
+    },
+  },
+  trigger: {
+    '--q-picker-fill': 'var(--q-card)',
+    '--q-picker-edge': {default: 'var(--q-input)', ':focus-within': 'var(--q-ring)'},
+    position: 'relative', isolation: 'isolate', boxSizing: 'border-box',
+    minHeight: 48, paddingBlock: 12, paddingInline: 24, gap: 12,
+    borderWidth: 0, borderRadius: 0, backgroundColor: 'transparent',
+    boxShadow: 'none', filter: 'drop-shadow(0 4px 0 var(--q-shadow))',
+    color: 'var(--q-foreground)', fontFamily: 'var(--q-font-display)',
+    fontSize: 20, fontWeight: 700, lineHeight: 1.2,
+    outline: {default: 'none', ':focus-within': '3px solid var(--q-ring)'}, outlineOffset: 5,
+    '::before': {
+      content: '""', position: 'absolute', inset: 0, zIndex: -1,
+      pointerEvents: 'none', clipPath: 'var(--q-step)', backgroundColor: 'var(--q-picker-edge)',
+    },
+    '::after': {
+      content: '""', position: 'absolute', inset: 3, zIndex: -1,
+      pointerEvents: 'none', clipPath: 'var(--q-step)', backgroundColor: 'var(--q-picker-fill)',
+      boxShadow: 'inset 0 3px 0 color-mix(in srgb,var(--q-card),white 24%),inset 0 -4px 0 color-mix(in srgb,var(--q-card),black 25%)',
+    },
+  },
+  disabled: {opacity: 0.45, cursor: 'not-allowed'},
+  option: {fontFamily: 'var(--q-font-body)', fontSize: 18, lineHeight: 1.4},
+  optionLabel: {display: 'block', overflowWrap: 'anywhere', fontFamily: 'var(--q-font-body)', fontSize: 18},
+  optionDescription: {display: 'block', color: 'var(--q-muted-foreground)', fontSize: 16},
+  triggerLabel: {fontFamily: 'var(--q-font-display)', fontSize: 20, fontWeight: 700, lineHeight: 1.2},
+})

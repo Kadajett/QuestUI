@@ -1,0 +1,119 @@
+{
+  "version": 1,
+  "profile": "generic",
+  "managedLinks": [
+    {
+      "path": ".agents/skills/codebase-design",
+      "targetHash": "1bf10bc30574c1055c34df7d2815d0f5157688d72b0808a8c6e0fe39bcd0ae40"
+    },
+    {
+      "path": ".claude/skills/codebase-design",
+      "targetHash": "eb5661179f7505bb8686cfc6bfa7807643c0fdc82d4622db39e39822417c73c8"
+    },
+    {
+      "path": ".pi/skills/codebase-design",
+      "targetHash": "eb5661179f7505bb8686cfc6bfa7807643c0fdc82d4622db39e39822417c73c8"
+    },
+    {
+      "path": ".omp/skills/codebase-design",
+      "targetHash": "eb5661179f7505bb8686cfc6bfa7807643c0fdc82d4622db39e39822417c73c8"
+    },
+    {
+      "path": ".agents/skills/diagnosing-bugs",
+      "targetHash": "e563036e7a9adb27e86b717e86319307e64043eb0bd5de46e5a7e8b77bd5c44a"
+    },
+    {
+      "path": ".claude/skills/diagnosing-bugs",
+      "targetHash": "1909b2464ab9b48e660d09b32c2d6c460db02ef637ae83bb7e6025c53379639c"
+    },
+    {
+      "path": ".pi/skills/diagnosing-bugs",
+      "targetHash": "1909b2464ab9b48e660d09b32c2d6c460db02ef637ae83bb7e6025c53379639c"
+    },
+    {
+      "path": ".omp/skills/diagnosing-bugs",
+      "targetHash": "1909b2464ab9b48e660d09b32c2d6c460db02ef637ae83bb7e6025c53379639c"
+    },
+    {
+      "path": ".agents/skills/tdd",
+      "targetHash": "1bdc986d26e8c45c85f5ffc592fb5924cdc41890332004bf1f890fdff7d0fab1"
+    },
+    {
+      "path": ".claude/skills/tdd",
+      "targetHash": "1995de7d6fd9a9273c14fb6c9e9d17c7f74adef2612c9281193ee58b9452ccb1"
+    },
+    {
+      "path": ".pi/skills/tdd",
+      "targetHash": "1995de7d6fd9a9273c14fb6c9e9d17c7f74adef2612c9281193ee58b9452ccb1"
+    },
+    {
+      "path": ".omp/skills/tdd",
+      "targetHash": "1995de7d6fd9a9273c14fb6c9e9d17c7f74adef2612c9281193ee58b9452ccb1"
+    },
+    {
+      "path": ".agents/skills/vercel-react-best-practices",
+      "targetHash": "22d9960d2aadec13b2b28d4d339259dad4b69f9132fecbb04ef5604896092ab3"
+    },
+    {
+      "path": ".claude/skills/vercel-react-best-practices",
+      "targetHash": "ad2bf1a435ee22f50da5a2617b89d92663827f885b42fcf5d6cd9cd324bde995"
+    },
+    {
+      "path": ".pi/skills/vercel-react-best-practices",
+      "targetHash": "ad2bf1a435ee22f50da5a2617b89d92663827f885b42fcf5d6cd9cd324bde995"
+    },
+    {
+      "path": ".omp/skills/vercel-react-best-practices",
+      "targetHash": "ad2bf1a435ee22f50da5a2617b89d92663827f885b42fcf5d6cd9cd324bde995"
+    }
+  ],
+  "skills": [
+    {
+      "name": "codebase-design",
+      "repository": "https://github.com/mattpocock/skills.git",
+      "revision": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "path": "skills/engineering/codebase-design",
+      "reason": "baseline: trusted engineering disciplines",
+      "resolution": "local",
+      "localDigest": "9cc758486e0beb2414d71669bfc76919491b46df2c5d18e1c1c601069c141274"
+    },
+    {
+      "name": "diagnosing-bugs",
+      "repository": "https://github.com/mattpocock/skills.git",
+      "revision": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "path": "skills/engineering/diagnosing-bugs",
+      "reason": "baseline: trusted engineering disciplines",
+      "resolution": "local",
+      "localDigest": "b0acb080d269b636cd848eb8784577400d667d104f7ba5cd3d384dccf5adec86"
+    },
+    {
+      "name": "tdd",
+      "repository": "https://github.com/mattpocock/skills.git",
+      "revision": "3cca18b368ae95cdbdebbff572ccafa662551015",
+      "path": "skills/engineering/tdd",
+      "reason": "baseline: trusted engineering disciplines",
+      "resolution": "local",
+      "localDigest": "3639ae5b1fb8f08254f1be9df849d3870ae4b64a3f29d175bac78840051742f4"
+    },
+    {
+      "name": "vercel-react-best-practices",
+      "repository": "https://github.com/vercel-labs/agent-skills.git",
+      "revision": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "path": "skills/react-best-practices",
+      "reason": "package: react",
+      "resolution": "pinned-upstream"
+    }
+  ],
+  "unmatchedPackages": [
+    "@vitejs/plugin-react",
+    "class-variance-authority",
+    "clsx",
+    "cmdk",
+    "radix-ui",
+    "react-day-picker",
+    "tailwind-merge",
+    "typescript",
+    "vite"
+  ],
+  "guidance": []
+}

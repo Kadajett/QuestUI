@@ -1,0 +1,20 @@
+@media (forced-colors: active) {
+  .quest-overlay-extra {
+    border: 2px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    filter: none;
+  }
+
+  .quest-overlay-extra::before,
+  .quest-overlay-extra::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-overlay-extra {
+    animation: none;
+    transition: none;
+  }
+}

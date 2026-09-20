@@ -1,0 +1,84 @@
+import {expect, test} from '@playwright/test'
+
+test.beforeEach(async ({page}) => {
+  await page.goto('/demo')
+  await page.emulateMedia({reducedMotion: 'reduce'})
+  await page.evaluate(() => document.fonts.ready)
+})
+
+test('inventory sorts, filters, paginates and keeps selected loot', async ({page}) => {
+  const inventory = page.locator('#data-table')
+  await inventory.getByRole('button', {name: 'Gold', exact: true}).click()
+  await expect(inventory.getByRole('row').nth(1)).toContainText('Health potion')
+  await inventory.getByRole('checkbox', {name: 'Select row potion', exact: true}).check()
+  await inventory.getByRole('button', {name: 'Next page'}).click()
+  await expect(inventory.getByRole('status', {name: 'Loot selection'})).toHaveText('Packed: potion')
+  await inventory.getByRole('textbox', {name: 'Filter rows'}).fill('Cavern')
+  await expect(inventory.getByRole('cell', {name: 'Moonstone', exact: true})).toBeVisible()
+  await expect(inventory.getByRole('cell', {name: 'Ancient map', exact: true})).toBeVisible()
+  await expect(inventory.getByRole('button', {name: 'Next page'})).toBeDisabled()
+  await inventory.getByRole('textbox', {name: 'Filter rows'}).fill('missing')
+  await expect(inventory.getByRole('cell', {name: 'No matching rows.'})).toBeVisible()
+})
+
+test('carousel scrolls natively with arrows and stops at both boundaries', async ({page}) => {
+  const carousel = page.getByRole('region', {name: 'Quest destinations'})
+  const scroller = carousel.locator(':scope > [tabindex="0"]')
+  await scroller.focus()
+  await page.keyboard.press('End')
+  await expect.poll(() => scroller.evaluate(node => Math.abs(node.scrollWidth - node.clientWidth - node.scrollLeft))).toBeLessThan(3)
+  await expect(page.getByRole('button', {name: 'Scroll right', exact: true, includeHidden: true})).toBeDisabled()
+  await page.keyboard.press('Home')
+  await expect.poll(() => scroller.evaluate(node => node.scrollLeft)).toBeLessThan(3)
+  await expect(page.getByRole('button', {name: 'Scroll left', exact: true, includeHidden: true})).toBeDisabled()
+  await page.keyboard.press('ArrowRight')
+  await expect.poll(() => scroller.evaluate(node => node.scrollLeft)).toBeGreaterThan(10)
+  await page.getByRole('button', {name: 'Scroll left', exact: true}).click()
+  await expect.poll(() => scroller.evaluate(node => node.scrollLeft)).toBeLessThan(3)
+})
+
+test('chart switches geometry and exposes hover and keyboard values', async ({page}) => {
+  const section = page.locator('#chart')
+  const point = section.getByRole('img', {name: 'Mon, Gold earned: 20'})
+  await point.hover()
+  await expect(section.getByRole('tooltip')).toHaveText('Mon · Gold earned: 20')
+  await section.getByRole('button', {name: 'Line chart'}).click()
+  await point.focus()
+  await expect(section.getByRole('tooltip')).toHaveText('Mon · Gold earned: 20')
+  await page.keyboard.press('Escape')
+  await expect(section.getByRole('tooltip')).toHaveCount(0)
+  await section.getByRole('button', {name: 'Area chart'}).click()
+  await section.getByRole('img', {name: 'Fri, Supplies: -16'}).focus()
+  await expect(section.getByRole('tooltip')).toHaveText('Fri · Supplies: -16')
+})
+
+test('resize separator handles keyboard bounds and pointer gestures', async ({page}) => {
+  const handle = page.getByRole('separator', {name: 'Resize map and journal'})
+  await handle.focus()
+  await page.keyboard.press('Home')
+  await expect.poll(async () => Number(await handle.getAttribute('aria-valuenow')) - Number(await handle.getAttribute('aria-valuemin'))).toBe(0)
+  await page.keyboard.press('End')
+  await expect.poll(async () => Number(await handle.getAttribute('aria-valuenow')) - Number(await handle.getAttribute('aria-valuemax'))).toBe(0)
+  const before = Number(await handle.getAttribute('aria-valuenow'))
+  await page.keyboard.press('ArrowLeft')
+  await expect.poll(async () => Number(await handle.getAttribute('aria-valuenow'))).toBeLessThan(before)
+  const box = await handle.boundingBox()
+  if (!box) throw new Error('Resize handle has no hit area')
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+  await page.mouse.down()
+  await page.mouse.move(box.x - 70, box.y + box.height / 2, {steps: 8})
+  await page.mouse.up()
+  await expect.poll(async () => Number(await handle.getAttribute('aria-valuenow'))).toBeLessThan(before - 30)
+  await expect(page.getByRole('status', {name: 'Panel size'})).toContainText('Map width:')
+})
+
+for (const theme of ['overworld', 'castle'] as const) {
+  test(`data components pixel surfaces in ${theme}`, async ({page}) => {
+    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    for (const section of ['table', 'data-table', 'carousel', 'chart', 'resizable']) {
+      await expect(page.locator(`#${section}`)).toHaveScreenshot(`${section}-${theme}.png`)
+    }
+    await page.locator('#chart').getByRole('img', {name: 'Mon, Gold earned: 20'}).focus()
+    await expect(page.locator('#chart')).toHaveScreenshot(`chart-tooltip-${theme}.png`)
+  })
+}
