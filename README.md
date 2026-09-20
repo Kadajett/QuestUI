@@ -4,9 +4,9 @@
 
 **Every shadcn component, reimagined for a pixel-art world.**
 
-Editable React source · Astryx semantics · StyleX styling · 64 components · 2 themes
+Editable React source · Astryx semantics · StyleX styling · 64 components · 4 included themes
 
-[Live homepage](https://questui.yougotserved.dev) · [Component workbench](https://questui.yougotserved.dev/demo) · [Component catalog](docs/components.md) · [AI guide](docs/ai.md)
+[Live homepage](https://questui.yougotserved.dev) · [Component docs](https://questui.yougotserved.dev/components) · [Component catalog](docs/components.md) · [AI guide](docs/ai.md)
 
 </div>
 
@@ -23,7 +23,7 @@ The registry copies editable TypeScript into your application. You own the compo
 | Components | 64 shadcn-compatible compositions |
 | Delivery | shadcn registry items generated at `/r/quest-<name>.json` |
 | CLI | `quest-ui init`, `list`, `add`, and `swizzle` |
-| Styling | StyleX with `overworld` and `castle` Quest themes |
+| Styling | StyleX with Overworld, Castle, Nymph GB, and PICO-8 themes plus an exported factory |
 | Semantics | Astryx primitives or the correct native platform element |
 | Source | Editable TypeScript copied into the consumer app |
 | AI context | `llms.txt`, exact file map, component catalog, and change workflow |
@@ -106,12 +106,14 @@ quest-ui CLI
 
 ## Themes
 
-`questTheme` extends Astryx's neutral theme with two modes:
+`questTheme` remains the ready-to-use Overworld/Castle pair. The demo also ships two game-inspired palettes:
 
 - **Overworld:** clear sky, parchment surfaces, cobalt controls, and quest red.
 - **Castle:** moonlit iron surfaces, crimson accents, and high-contrast text.
+- **Nymph GB:** a four-color handheld palette by [Kerrie Lake](https://lospec.com/palette-list/nymph-gb).
+- **PICO-8:** the 16-color fantasy-console palette by [Lexaloffle Games](https://lospec.com/palette-list/pico-8).
 
-Both modes include forced-colors and reduced-motion behavior where the underlying interaction needs it. Fonts are bundled in `public/fonts` with their OFL notices.
+These are examples, not a closed preset list. The copied theme module exports a palette-to-theme factory, so an application can map its own art direction to Quest's semantic tokens without changing component behavior. All included themes retain forced-colors and reduced-motion behavior where the underlying interaction needs it. Fonts are bundled in `public/fonts` with their OFL notices.
 
 ```tsx
 import '@astryxdesign/core/reset.css'
@@ -149,7 +151,7 @@ import {PixelAvatar, createAvatar} from '@quest-ui/pixel-avatars'
 <PixelAvatar selection={createAvatar('mira')} size={96} label="Mira" />
 ```
 
-The render-only entry has no React or StyleX dependency. The workbench includes six selectors and a 48-avatar gallery.
+The render-only entry has no React or StyleX dependency. The internal playground at `/demo` includes six selectors and a 48-avatar gallery.
 
 ## AI-friendly repository map
 
@@ -157,7 +159,7 @@ Start with [`llms.txt`](llms.txt) or the [AI integration guide](docs/ai.md).
 
 | Task | Read first |
 |---|---|
-| Choose or install a component | `docs/components.md`, `docs/getting-started.md` |
+| Choose or install a component | [Component docs](https://questui.yougotserved.dev/components), `docs/components.md`, `docs/getting-started.md` |
 | Change component behavior | `components/quest/<name>.tsx` and its focused tests |
 | Change visual language | `components/quest/theme.ts` and shared StyleX modules |
 | Add a catalog entry | `docs/ai.md` completion checklist |
@@ -178,7 +180,7 @@ npx astryx docs tokens
 
 ```sh
 npm install
-npm run dev                 # homepage + workbench on http://localhost:5173
+npm run dev                 # homepage, component docs, and playground on http://localhost:5173
 npm test                    # Vitest behavior suite
 npm run test:e2e            # Playwright interaction and screenshot suite
 npm run build               # typecheck, CLI, registry, and Vite production build
@@ -193,7 +195,7 @@ The packaged-consumer verifier packs the real CLI, initializes a fresh Vite app,
 - Automatic initialization supports npm + Vite + React + TypeScript + ESM.
 - Other bundlers require manual StyleX compiler integration.
 - Quest button link polymorphism is not implemented; use Astryx `Link` for navigation.
-- Accessibility verification covers Chromium interaction, both themes, forced colors, reduced motion, and a narrow viewport. Screen-reader and physical-device testing remain separate release checks.
+- Accessibility verification covers Chromium interaction, the included themes, forced colors, reduced motion, and a narrow viewport. Screen-reader and physical-device testing remain separate release checks.
 
 ## Third-party notices
 

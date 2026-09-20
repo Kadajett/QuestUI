@@ -35,5 +35,5 @@ export function SidebarCollapseButton({xstyle, ...props}: QuestSidebarCollapseBu
 
 /** Controlled native modal drawer, or automatic mobile navigation in an Astryx AppShell. */
 export function SidebarMobile({xstyle, ...props}: QuestSidebarMobileProps) {
-  return <MobileNav {...props} xstyle={[navigationStyles.tokens, navigationStyles.drawer, xstyle]} />
+  return <MobileNav {...props} xstyle={[navigationStyles.tokens, xstyle]} />
 }

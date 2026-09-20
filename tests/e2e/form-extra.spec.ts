@@ -1,6 +1,8 @@
 import {expect, test} from '@playwright/test'
 
 test.beforeEach(async ({page}) => {
+  await page.clock.setFixedTime(new Date('2026-09-19T12:00:00Z'))
+  await page.emulateMedia({reducedMotion: 'reduce'})
   await page.goto('/demo')
   await page.evaluate(() => document.fonts.ready)
 })
@@ -61,7 +63,7 @@ test('calendar popovers select a day and range and return keyboard focus', async
 
 for (const theme of ['overworld', 'castle'] as const) {
   test(`extended forms and calendar popup in ${theme}`, async ({page}) => {
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     const section = page.locator('#form-extra')
     await expect(section).toHaveScreenshot(`form-extra-${theme}.png`)
     await section.getByRole('button', {name: 'Open calendar', exact: true}).first().click()

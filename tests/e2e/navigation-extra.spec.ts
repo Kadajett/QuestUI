@@ -34,6 +34,7 @@ test('collapsed sidebar remains navigable and mobile drawer closes with Escape',
   await opener.click()
   const drawer = page.getByRole('dialog', {name: 'Adventure navigation'})
   await expect(drawer).toBeVisible()
+  await expect(drawer).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
   await page.keyboard.press('Escape')
   await expect(drawer).toBeHidden()
   await expect(opener).toBeFocused()
@@ -65,13 +66,15 @@ test('subnavigation supports keyboard activation and pointer hover', async ({pag
 for (const theme of ['overworld', 'castle'] as const) {
   test(`extra navigation surfaces in ${theme}`, async ({page}) => {
     await page.emulateMedia({reducedMotion: 'reduce'})
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await page.evaluate(() => document.fonts.ready)
     await expect(page.locator('#navigation-extra')).toHaveScreenshot(`navigation-extra-${theme}.png`)
     await page.getByRole('button', {name: 'Explore regions'}).click()
     await expect(page.getByRole('menu', {name: 'Explore regions'})).toHaveScreenshot(`navigation-menu-${theme}.png`)
     await page.keyboard.press('Escape')
     await page.getByRole('button', {name: 'Open mobile navigation'}).click()
-    await expect(page.getByRole('dialog', {name: 'Adventure navigation'})).toHaveScreenshot(`sidebar-mobile-${theme}.png`)
+    const mobileDrawer = page.getByRole('dialog', {name: 'Adventure navigation'})
+    await expect(mobileDrawer).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(mobileDrawer).toHaveScreenshot(`sidebar-mobile-${theme}.png`)
   })
 }

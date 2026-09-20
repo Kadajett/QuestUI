@@ -29,7 +29,7 @@ Examples:
   quest-ui list
   quest-ui init --framework vite --registry http://localhost:5173/r --cwd ./my-app
   quest-ui add button card --registry http://localhost:5173/r --cwd ./my-app --yes
-  QUEST_UI_REGISTRY=https://your-host.example/r quest-ui add input label
+  QUEST_UI_REGISTRY=https://questui.yougotserved.dev/r quest-ui add input label
 
 For add, pass shadcn options through unchanged, including --cwd, --yes, --overwrite,
 --path, --dry-run, --diff, and --view. Put component names before options with

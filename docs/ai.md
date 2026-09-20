@@ -21,7 +21,7 @@ The consumer owns copied Quest source. Astryx and StyleX remain dependencies.
 |---|---|
 | Installable component names and Astryx mapping | `cli/catalog.ts` |
 | Public repository exports | `components/quest/index.ts` |
-| Theme, modes, pixel colors, fonts, stepped geometry | `components/quest/theme.ts` |
+| Theme factory, included palettes, modes, fonts, stepped geometry | `components/quest/theme.ts` |
 | Component implementation | `components/quest/<name>.tsx` |
 | Registry generation | `scripts/build-registry.ts` |
 | Generated registry | `public/r/` |
@@ -56,8 +56,8 @@ npx astryx docs tokens
 - Use StyleX for component styling.
 - Prefer Astryx component props before custom StyleX.
 - Use theme tokens such as `var(--color-*)`, `var(--spacing-*)`, `var(--radius-*)`, and Quest local tokens such as `var(--q-primary)`.
-- Put brand/accent colors in `questTheme`; do not override global color variables in a page.
-- Keep both `overworld` (light) and `castle` (dark) modes functional.
+- Put brand and game-palette colors in the exported Quest theme factory; do not override global color variables in a page.
+- Keep Overworld, Castle, Nymph GB, and PICO-8 functional, and treat them as examples rather than a closed preset list.
 - Preserve forced-colors and reduced-motion behavior where present.
 - Dense data belongs in tables, lists, and items rather than repeated cards.
 
@@ -68,11 +68,12 @@ A component is complete only when all applicable surfaces agree:
 1. `components/quest/<name>.tsx` implements the source composition.
 2. `cli/catalog.ts` contains the CLI name and Astryx foundation.
 3. `components/quest/index.ts` exports the public values and types.
-4. The workbench contains a real stateful example.
-5. Behavior tests cover meaningful interaction boundaries.
-6. `npm run registry` emits `public/r/quest-<name>.json`.
-7. `docs/components.md` and the README catalog stay accurate.
-8. The packaged consumer can install and build the copied source.
+4. The component detail page exposes its install command, import path, registry artifact, and source.
+5. The playground contains a real stateful example.
+6. Behavior tests cover meaningful interaction boundaries.
+7. `npm run registry` emits `public/r/quest-<name>.json`.
+8. `docs/components.md` and the README catalog stay accurate.
+9. The packaged consumer can install and build the copied source.
 
 Do not add compatibility aliases for renamed component slugs. Migrate source, callers, generated registry items, docs, and examples together.
 
@@ -94,6 +95,6 @@ node scripts/verify-consumer.ts
 
 - Automatic `quest-ui init` supports npm + Vite + React + TypeScript + ESM only.
 - Other bundlers require manual StyleX compiler integration.
-- There is no public registry URL in the repository; pass `--registry` or `QUEST_UI_REGISTRY`.
+- The public registry is `https://questui.yougotserved.dev/r`; local development can use the Vite registry at `http://127.0.0.1:5173/r`.
 - Quest button link polymorphism is not implemented. Use Astryx `Link` for navigation.
 - `packages/pixel-avatars` is a separate companion package, not a registry component.

@@ -39,7 +39,7 @@ The installed binary is `quest-ui`; invoke it through `npx quest-ui` from the co
 ```sh
 npx quest-ui init \
   --framework vite \
-  --registry http://127.0.0.1:5173/r \
+  --registry https://questui.yougotserved.dev/r \
   --cwd ./my-app \
   --yes
 ```
@@ -58,7 +58,7 @@ Existing plugins and application code are preserved. Unsupported configuration s
 
 ```sh
 npx quest-ui add button card dialog \
-  --registry http://127.0.0.1:5173/r \
+  --registry https://questui.yougotserved.dev/r \
   --cwd ./my-app \
   --yes
 ```
@@ -74,7 +74,7 @@ npx quest-ui list
 Use `QUEST_UI_REGISTRY` instead of repeating `--registry`:
 
 ```sh
-QUEST_UI_REGISTRY=https://example.com/r npx quest-ui add input field
+QUEST_UI_REGISTRY=https://questui.yougotserved.dev/r npx quest-ui add input field
 ```
 
 ## Import copied source
@@ -87,6 +87,43 @@ import {Card, CardContent} from '@/components/quest/card'
 ```
 
 The complete repository package also exports the catalog from `@quest-ui/core`, but registry consumers own the copied modules and normally import them directly.
+
+## Build your own theme
+
+Overworld, Castle, Nymph GB, and PICO-8 are reference mappings, not a closed preset list. The copied `components/quest/theme.ts` module exports their metadata and a palette-to-theme factory. Select an included theme like this:
+
+```tsx
+import {Theme} from '@astryxdesign/core/theme'
+import {themes} from './components/quest/theme'
+
+const selected = themes['nymph-gb']
+
+<Theme theme={selected.theme} mode={selected.mode}>
+  <App />
+</Theme>
+```
+
+For a new art direction, map the palette to semantic surface, text, action, border, focus, and status roles in the factory input. Keep readable foreground/background pairs rather than assigning colors by visual similarity alone.
+
+```tsx
+import {Theme} from '@astryxdesign/core/theme'
+import {createQuestTheme} from './components/quest/theme'
+import {nymphGbPalette} from './components/quest/palettes'
+
+const mossTheme = createQuestTheme('moss', {
+  ...nymphGbPalette,
+  primary: '#3fac95',
+  primaryForeground: '#2c2137',
+  accent: '#a1ef8c',
+  accentForeground: '#2c2137',
+})
+
+<Theme theme={mossTheme} mode="dark">
+  <App />
+</Theme>
+```
+
+The palette is only one layer. The same copied theme module owns Quest typography, stepped geometry, borders, and hard shadows; individual copied components own their Astryx target slots and StyleX presentation. Change those sources when the game needs a different silhouette. Interaction state, focus management, keyboard behavior, and announcements remain in Astryx.
 
 ## Deep customization
 

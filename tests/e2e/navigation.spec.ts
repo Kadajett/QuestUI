@@ -55,7 +55,7 @@ test('modal traps focus, dismisses with Escape, and restores its opener', async 
 for (const theme of ['overworld', 'castle'] as const) {
   test(`navigation surfaces in ${theme}`, async ({page}) => {
     await page.emulateMedia({reducedMotion: 'reduce'})
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await page.evaluate(() => document.fonts.ready)
     await expect(page.locator('#tabs')).toHaveScreenshot(`tabs-${theme}.png`)
     await page.getByRole('button', {name: 'Set up camp', exact: true}).click()

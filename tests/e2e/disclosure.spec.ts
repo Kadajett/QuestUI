@@ -80,7 +80,7 @@ test('consumer-owned warning is dismissible and can be shown again', async ({pag
 
 for (const theme of ['overworld', 'castle'] as const) {
   test(`disclosure and notification framing in ${theme}`, async ({page}) => {
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await expect(page.locator('#accordion')).toHaveScreenshot(`accordion-${theme}.png`)
     await page.locator('#toast').getByRole('button', {name: 'Save quest', exact: true}).click()
     const notification = page.getByRole('status').filter({has: page.getByRole('button', {name: 'Dismiss notification', exact: true})})

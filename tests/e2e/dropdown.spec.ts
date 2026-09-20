@@ -41,7 +41,7 @@ test('dropdown supports keyboard navigation and Escape close', async ({page}) =>
 for (const theme of ['overworld', 'castle'] as const) {
   test(`dropdown menu framing in ${theme}`, async ({page}) => {
     await page.emulateMedia({reducedMotion: 'reduce'})
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await page.evaluate(() => document.fonts.ready)
     await page.getByRole('button', {name: 'Quest actions', exact: true}).click()
     const menu = page.getByRole('menu', {name: 'Quest actions'})

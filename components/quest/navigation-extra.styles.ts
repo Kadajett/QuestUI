@@ -14,12 +14,6 @@ export const navigationStyles = stylex.create({
   item: {fontFamily: 'var(--q-font-display)', borderRadius: 0, transitionProperty: 'none'},
   bar: {padding: 12, gap: 12, minWidth: 0, flexWrap: 'wrap'},
   sidebar: {padding: 8, maxWidth: '100%', minHeight: 240},
-  drawer: {
-    borderRadius: 0, border: '3px solid var(--q-border)',
-    backgroundColor: {default: 'var(--q-card)', '@media (forced-colors: active)': 'Canvas'},
-    color: {default: 'var(--q-foreground)', '@media (forced-colors: active)': 'CanvasText'},
-    transitionDuration: {default: '150ms', '@media (prefers-reduced-motion: reduce)': '0s'},
-  },
   viewport: {
     boxSizing: 'border-box', borderRadius: 0,
     border: {default: '3px solid var(--q-border)', '@media (forced-colors: active)': '3px solid CanvasText'},

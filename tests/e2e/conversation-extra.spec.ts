@@ -58,7 +58,7 @@ test('transcript follows near the end but preserves a reader anchor on append an
 for (const theme of ['overworld', 'castle'] as const) {
   test(`conversation extras render in ${theme}`, async ({page}) => {
     await page.emulateMedia({reducedMotion: 'reduce'})
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await page.evaluate(() => document.fonts.ready)
     await expect(page.locator('#conversation-extra')).toHaveScreenshot(`conversation-extra-${theme}.png`)
   })

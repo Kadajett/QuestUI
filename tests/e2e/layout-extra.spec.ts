@@ -53,7 +53,7 @@ test('empty state, independent item action, and reduced-motion loading status', 
 
 for (const theme of ['overworld', 'castle'] as const) {
   test(`layout extras in ${theme}`, async ({page}) => {
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await expect(page.locator('#layout-extra')).toHaveScreenshot(`layout-extra-${theme}.png`)
   })
 }

@@ -41,7 +41,7 @@ test('hover card stays open across the pointer gap and supports focus and Escape
 for (const theme of ['overworld', 'castle'] as const) {
   test(`context surfaces frame correctly in ${theme}`, async ({page}) => {
     await page.emulateMedia({reducedMotion: 'reduce'})
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     await page.evaluate(() => document.fonts.ready)
     await page.getByRole('button', {name: 'Sealed chest', exact: true}).click({button: 'right'})
     await expect(page.getByRole('menu', {name: 'Chest actions'})).toHaveScreenshot(`context-menu-${theme}.png`)

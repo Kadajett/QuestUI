@@ -12,7 +12,7 @@ test('alert details expand and danger can be dismissed', async ({page}) => {
 for (const mode of ['overworld', 'castle'] as const) {
   test(`alerts ${mode} screenshot`, async ({page}) => {
     await page.goto('/demo')
-    if (mode === 'castle') await page.getByRole('button', {name: 'Switch to Castle'}).click()
+    if (mode === 'castle') await page.getByRole('combobox', {name: 'Theme'}).selectOption('castle')
     await page.evaluate(() => document.fonts.ready)
     await expect(page.locator('#alerts')).toHaveScreenshot(`alerts-${mode}.png`)
   })

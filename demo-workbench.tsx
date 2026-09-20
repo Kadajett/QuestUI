@@ -1,7 +1,7 @@
 import {Heading} from '@astryxdesign/core/Heading'
 import {Text} from '@astryxdesign/core/Text'
 import {VStack} from '@astryxdesign/core/VStack'
-import {Button} from './components/quest/button'
+import {themes, type QuestTheme} from './components/quest/theme'
 import {AvatarGeneratorExample} from './demo-avatars'
 import {ContextExamples} from './demo-context'
 import {ConversationExtraExamples} from './demo-conversation-extra'
@@ -16,17 +16,19 @@ import {NavigationExamples} from './demo-navigation'
 import {OverlaysExtraExamples} from './demo-overlays-extra'
 import {PickerExamples} from './demo-pickers'
 import {SurfaceExamples} from './demo-surfaces'
+import {ThemePicker} from './demo-theme-picker'
 
 export interface WorkbenchProps {
-  dark: boolean
-  onThemeToggle: () => void
+  themeName: QuestTheme
+  onThemeChange: (themeName: QuestTheme) => void
 }
 
-export default function Workbench({dark, onThemeToggle}: WorkbenchProps) {
+export default function Workbench({themeName, onThemeChange}: WorkbenchProps) {
   return <VStack as="main" padding={8} gap={6} width="100%">
     <Heading level={1} type="display-1">QuestUI workbench</Heading>
-    <Text as="p" type="large" color="secondary">All 64 source-copy compositions, exercised with real state in both Quest themes.</Text>
-    <Button onClick={onThemeToggle}>{dark ? 'Switch to Overworld' : 'Switch to Castle'}</Button>
+    <Text as="p" type="large" color="secondary">Four built-in palettes and a palette factory for custom Quest themes.</Text>
+    <ThemePicker themeName={themeName} onThemeChange={onThemeChange} />
+    <Text as="p" type="supporting">Active theme: {themes[themeName].name}</Text>
     <SurfaceExamples />
     <FormExamples />
     <PickerExamples />

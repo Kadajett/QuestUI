@@ -106,7 +106,7 @@ test('menubar arrows reach multiple real menus and checkbox state persists', asy
 
 for (const theme of ['overworld', 'castle'] as const) {
   test(`extra overlay pixel frames in ${theme}`, async ({page}) => {
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).selectOption('castle')
     const section = page.locator('#overlays-extra')
     await section.getByRole('button', {name: 'Expedition notes'}).click()
     await expect(section).toHaveScreenshot(`overlays-extra-${theme}.png`)

@@ -74,11 +74,17 @@ test('resize separator handles keyboard bounds and pointer gestures', async ({pa
 
 for (const theme of ['overworld', 'castle'] as const) {
   test(`data components pixel surfaces in ${theme}`, async ({page}) => {
-    if (theme === 'castle') await page.getByRole('button', {name: 'Switch to Castle', exact: true}).click()
+    if (theme === 'castle') await page.getByRole('combobox', {name: 'Theme', exact: true}).press('ArrowDown')
     for (const section of ['table', 'data-table', 'carousel', 'chart', 'resizable']) {
       await expect(page.locator(`#${section}`)).toHaveScreenshot(`${section}-${theme}.png`)
     }
-    await page.locator('#chart').getByRole('img', {name: 'Mon, Gold earned: 20'}).focus()
-    await expect(page.locator('#chart')).toHaveScreenshot(`chart-tooltip-${theme}.png`)
+    const firstPoint = page.locator('#chart').getByRole('img', {name: 'Mon, Gold earned: 20'})
+    await page.getByRole('button', {name: 'Area chart'}).focus()
+    await page.keyboard.press('Tab')
+    await expect(firstPoint).toBeFocused()
+    expect(await firstPoint.evaluate(element => element.matches(':focus-visible'))).toBe(true)
+    await expect(firstPoint).toHaveCSS('outline-style', 'solid')
+    await expect(firstPoint).toHaveCSS('outline-color', theme === 'castle' ? 'rgb(237, 240, 233)' : 'rgb(37, 92, 189)')
+    await expect(page.getByRole('tooltip')).toHaveText('Mon · Gold earned: 20')
   })
 }
