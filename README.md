@@ -115,6 +115,8 @@ quest-ui CLI
 
 These are examples, not a closed preset list. The copied theme module exports a palette-to-theme factory, so an application can map its own art direction to Quest's semantic tokens without changing component behavior. All included themes retain forced-colors and reduced-motion behavior where the underlying interaction needs it. Fonts are bundled in `public/fonts` with their OFL notices.
 
+The hosted theme picker starts with Overworld for a light browser preference or Castle for a dark preference, then remembers an explicit selection across pages and reloads.
+
 ```tsx
 import '@astryxdesign/core/reset.css'
 import '@astryxdesign/core/astryx.css'

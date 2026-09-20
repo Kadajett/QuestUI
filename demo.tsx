@@ -2,7 +2,11 @@ import { lazy, Suspense, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Text } from "@astryxdesign/core/Text";
 import { Theme } from "@astryxdesign/core/theme";
-import { themes, type QuestTheme } from "./components/quest/theme";
+import {
+  themeNames,
+  themes,
+  type QuestTheme,
+} from "./components/quest/theme";
 import { LandingPage } from "./demo-landing";
 
 import "@astryxdesign/core/reset.css";
@@ -11,6 +15,33 @@ import "./components/quest/fonts.css";
 
 const Workbench = lazy(() => import("./demo-workbench"));
 const ComponentDocsPage = lazy(() => import("./demo-component-docs"));
+
+const themeStorageKey = "questui.theme.v1";
+
+function storedThemeName(): QuestTheme | undefined {
+  try {
+    const storedTheme = window.localStorage.getItem(themeStorageKey);
+    return themeNames.find((themeName) => themeName === storedTheme);
+  } catch {
+    return undefined;
+  }
+}
+
+function initialThemeName(): QuestTheme {
+  const storedTheme = storedThemeName();
+  if (storedTheme) return storedTheme;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "castle"
+    : "overworld";
+}
+
+function persistThemeName(themeName: QuestTheme): void {
+  try {
+    window.localStorage.setItem(themeStorageKey, themeName);
+  } catch {
+    // Storage may be disabled; the in-memory selection still applies.
+  }
+}
 
 interface CurrentPageProps {
   themeName: QuestTheme;
@@ -46,11 +77,15 @@ function CurrentPage({ themeName, onThemeChange }: CurrentPageProps) {
 }
 
 function App() {
-  const [themeName, setThemeName] = useState<QuestTheme>("overworld");
+  const [themeName, setThemeName] = useState<QuestTheme>(initialThemeName);
   const activeTheme = themes[themeName];
+  const changeTheme = (nextTheme: QuestTheme) => {
+    setThemeName(nextTheme);
+    persistThemeName(nextTheme);
+  };
   return (
     <Theme theme={activeTheme.theme} mode={activeTheme.mode}>
-      <CurrentPage themeName={themeName} onThemeChange={setThemeName} />
+      <CurrentPage themeName={themeName} onThemeChange={changeTheme} />
     </Theme>
   );
 }
